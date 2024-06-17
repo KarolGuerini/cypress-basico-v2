@@ -4,9 +4,9 @@
   "description": "Repositório da versão 2 do curso básico de Cypress da Escola Talking About Testing",
   "main": "src/index.html",
   "scripts": {
-  "cy:open": "cypress open",
-  "test": "cypress run"
-},
+    "cy:open": "cypress open",
+    "test": "cypress run"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wlsf82/cypress-basico-v2.git"
@@ -22,6 +22,9 @@
   "license": "MIT",
   "homepage": "https://github.com/wlsf82/cypress-basico-v2#readme",
   "devDependencies": {
-    "cypress": "^9.5.1"
+    "cypress": "^9.7.0"
+  },
+  "dependencies": {
+    "mocha": "^10.4.0"
   }
 }

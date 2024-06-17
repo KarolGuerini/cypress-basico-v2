@@ -1,5 +1,7 @@
 /// <reference types="Cypress" />
 
+const { it } = require("mocha")
+
 describe('Central de Atendimento ao Cliente TAT', function() {
   beforeEach(function(){
     cy.visit("./src/index.html")
@@ -45,7 +47,7 @@ cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
     cy.get('#firstName').type('Karol')
     cy.get('#lastName').type('Guerini')
     cy.get('#email').type('karol@gmail.com')
-    cy.get('#phone-checkbox').click()
+    cy.get('#phone-checkbox').check()
     cy.get('#open-text-area').type('Teste Karol')
     cy.contains('button', 'Enviar').click()
     cy.get('.error').should('be.visible')
@@ -104,7 +106,7 @@ cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
   })
 
   //EX 3.2
-  it.only('seleciona o produto (Blog) pelo seu índice', function(){
+  it('seleciona o produto (Blog) pelo seu índice', function(){
     cy.get('#product')
     .select(1)
     .should('have.value', 'blog')
@@ -127,13 +129,45 @@ cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
     })
   })
 
-      //Ex 5
-      it.only('marca ambos checkboxes, depois desmarca o último', function(){
+      //Ex 5 e 6
+      it('marca ambos checkboxes, depois desmarca o último', function(){
         cy.get('input[type="checkbox"]')
         .check()
         .last()
         .uncheck()
         .should('not.be.checked')
       })
+
+      //Ex 7
+      it('seleciona um arquivo da pasta fixtures', function(){
+        cy.get('input[type="file"]')
+        .should('not.have.value')
+        .selectFile('./cypress/fixtures/example.json')
+        .should(function($input){
+          expect($input[0].files[0].name).to.equal('example.json')
+        })
+      })
+
+
+      //Ex 7.1
+      it('seleciona um arquivo simulando drag-and-drop', function(){
+        cy.get('input[type="file"]')
+        .should('not.have.value')
+        .selectFile('./cypress/fixtures/example.json', {action: 'drag-drop'})
+        .should(function($input){
+          expect($input[0].files[0].name).to.equal('example.json')
+        })
+      })
+
+           //Ex 7.
+           it.only('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', function(){
+            cy.fixture('example.json').as('sampleFile')
+            cy.get('input[type="file"]')
+            .should('not.have.value')
+            .selectFile('@sampleFile')
+            .should(function($input){
+              expect($input[0].files[0].name).to.equal('example.json')
+            })
+          })
 })
 
