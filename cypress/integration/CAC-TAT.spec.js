@@ -12,7 +12,7 @@ cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
 
   // Ex 2.1
   it('preenche os campos obrigatórios e envia o formulário', function(){
-    const longText = 'Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol,Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol '
+    const longText = 'Teste karol, Teste karol, Teste karol, Teste karol, Teste karol, Teste karol'
 
     cy.get('#firstName').type('Karol')
     cy.get('#lastName').type('Guerini')
@@ -159,15 +159,21 @@ cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
         })
       })
 
-           //Ex 7.
-           it.only('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', function(){
-            cy.fixture('example.json').as('sampleFile')
-            cy.get('input[type="file"]')
-            .should('not.have.value')
-            .selectFile('@sampleFile')
-            .should(function($input){
-              expect($input[0].files[0].name).to.equal('example.json')
+           //Ex 8
+           it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', function(){
+            cy.get('#privacy a').should('have.attr', 'target', '_blank')
+
             })
+
+              //Ex 8.1 teste para política de privacidade abrir na mesma aba
+           it('acessa a página da política de privacidade removendo o target e então clicando no link', function(){
+            cy.get('#privacy a')
+            .invoke('removeAttr', 'target')
+            .click()
+            cy.contains('Talking About Testing').should('be.visible')
+
+            })
+
           })
-})
+
 
